@@ -10,7 +10,7 @@ class Stitcher:
 
 	def stitch(self, images, ratio=0.75, reprojThresh=12.0,				# reprojThresh -> big,more 
 		showMatches=False):												# ratio -> big,more (SIFT)
-		# unpack the images, then detect keypoints and extract
+		# unpack the images, then detect keypoints and extract 			# (reprojThresh) the maximum pixel “wiggle room” allowed by the RANSAC algorithm
 		# local invariant descriptors from them
 		(imageB, imageA) = images
 		(kpsA, featuresA) = self.detectAndDescribe(imageA) 				# SIFT
