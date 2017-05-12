@@ -46,28 +46,17 @@ class Stitcher:
 
 	def detectAndDescribe(self, image):									# change from SIFT to Others
 		# convert the image to grayscale
-		#gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-
-		# check to see if we are using OpenCV 3.X
-		#if self.isv3:
+		gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 			# detect and extract features from the image
 		#	descriptor = cv2.xfeatures2d.SIFT_create()
 		#	(kps, features) = descriptor.detectAndCompute(image, None)
 
-		# otherwise, we are using OpenCV 2.4.X
-		#else:
-			# detect keypoints in the image
-		#	detector = cv2.FeatureDetector_create("SIFT")
-		#	kps = detector.detect(gray)
-
-			# extract features from the image
-		#	extractor = cv2.DescriptorExtractor_create("SIFT")
-		#	(kps, features) = extractor.compute(gray, kps)
-
 		# convert the keypoints from KeyPoint objects to NumPy
 		# arrays
-		orb = cv2.ORB_create()
-		(kps, features) = orb.detectAndCompute(image, None)
+		# change this pice of code to use other algorithm to switch 
+		#from sift to others
+		BRISK = cv2.BRISK_create()
+		(kps, features) = BRISK.detectAndCompute(image, None)
 		kps = np.float32([kp.pt for kp in kps])
 
 		# return a tuple of keypoints and features
