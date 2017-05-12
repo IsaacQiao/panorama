@@ -8,9 +8,9 @@ class Stitcher:
 		# determine if we are using OpenCV v3.X
 		self.isv3 = imutils.is_cv3()
 
-	def stitch(self, images, ratio=0.75, reprojThresh=12.0,				# reprojThresh -> big,more 
+	def stitch(self, images, ratio=0.75, reprojThresh=8,				# reprojThresh -> big,more 
 		showMatches=False):												# ratio -> big,more (SIFT)
-		# unpack the images, then detect keypoints and extract 			# (reprojThresh) the maximum pixel “wiggle room” allowed by the RANSAC algorithm
+		# unpack the images, then detect keypoints and extract 			(reprojThresh) the maximum pixel (wiggle room) allowed by the RANSAC algorithm
 		# local invariant descriptors from them
 		(imageB, imageA) = images
 		(kpsA, featuresA) = self.detectAndDescribe(imageA) 				# SIFT
@@ -46,26 +46,28 @@ class Stitcher:
 
 	def detectAndDescribe(self, image):									# change from SIFT to Others
 		# convert the image to grayscale
-		gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+		#gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
 		# check to see if we are using OpenCV 3.X
-		if self.isv3:
+		#if self.isv3:
 			# detect and extract features from the image
-			descriptor = cv2.xfeatures2d.SIFT_create()
-			(kps, features) = descriptor.detectAndCompute(image, None)
+		#	descriptor = cv2.xfeatures2d.SIFT_create()
+		#	(kps, features) = descriptor.detectAndCompute(image, None)
 
 		# otherwise, we are using OpenCV 2.4.X
-		else:
+		#else:
 			# detect keypoints in the image
-			detector = cv2.FeatureDetector_create("SIFT")
-			kps = detector.detect(gray)
+		#	detector = cv2.FeatureDetector_create("SIFT")
+		#	kps = detector.detect(gray)
 
 			# extract features from the image
-			extractor = cv2.DescriptorExtractor_create("SIFT")
-			(kps, features) = extractor.compute(gray, kps)
+		#	extractor = cv2.DescriptorExtractor_create("SIFT")
+		#	(kps, features) = extractor.compute(gray, kps)
 
 		# convert the keypoints from KeyPoint objects to NumPy
 		# arrays
+		orb = cv2.ORB_create()
+		(kps, features) = orb.detectAndCompute(image, None)
 		kps = np.float32([kp.pt for kp in kps])
 
 		# return a tuple of keypoints and features
