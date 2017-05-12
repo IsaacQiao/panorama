@@ -47,16 +47,32 @@ class Stitcher:
 	def detectAndDescribe(self, image):									# change from SIFT to Others
 		# convert the image to grayscale
 		gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-			# detect and extract features from the image
-		#	descriptor = cv2.xfeatures2d.SIFT_create()
-		#	(kps, features) = descriptor.detectAndCompute(image, None)
+			
+
+		# detect and extract features from the image
+		#SIFT
+		#descriptor = cv2.xfeatures2d.BRIEF_create()
+		#(kps, features) = descriptor.detectAndCompute(image, None)
+
+
+		#BRIEF
+		star = cv2.xfeatures2d.StarDetector_create()
+		kps = star.detect(gray, None)
+
+
+		# Create the BRIEF extractor and compute the descriptors
+		brief = cv2.xfeatures2d.BriefDescriptorExtractor_create()
+		kps, features = brief.compute(image, kps)
+
+
+		# change this pice of code to use other algorithm to switch 
+		#from sift to others (ORB,BRISK,KAZE)
+		#BRISK = cv2.BRISK_create()
+		#(kps, features) = BRISK.detectAndCompute(image, None)
+
 
 		# convert the keypoints from KeyPoint objects to NumPy
 		# arrays
-		# change this pice of code to use other algorithm to switch 
-		#from sift to others
-		BRISK = cv2.BRISK_create()
-		(kps, features) = BRISK.detectAndCompute(image, None)
 		kps = np.float32([kp.pt for kp in kps])
 
 		# return a tuple of keypoints and features

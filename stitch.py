@@ -19,8 +19,8 @@ args = vars(ap.parse_args())
 # (for faster processing)
 imageA = cv2.imread(args["first"])
 imageB = cv2.imread(args["second"])
-imageA = imutils.resize(imageA, height=1000)
-imageB = imutils.resize(imageB, height=1000)
+imageA = imutils.resize(imageA, height=4000)
+imageB = imutils.resize(imageB, height=4000)
 
 # stitch the images together to create a panorama
 stitcher = Stitcher()
